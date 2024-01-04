@@ -1,4 +1,4 @@
-# SWiftUI Core Location
+# SwiftUI Core Location
 
 ## Usage
 ``` swift

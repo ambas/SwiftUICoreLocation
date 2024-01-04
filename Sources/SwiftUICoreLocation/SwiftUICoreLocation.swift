@@ -54,7 +54,7 @@ public struct LocationManager: ViewModifier {
   }
 }
 
-extension View {
+public extension View {
   func locationManager(requestPermission: LocationPermission, event: Binding<LocationEvent>) -> some View {
     modifier(LocationManager(requestPermission: requestPermission, event: event))
   }

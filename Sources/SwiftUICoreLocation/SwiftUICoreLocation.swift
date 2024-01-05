@@ -23,12 +23,18 @@ public enum LocationEvent: Equatable {
   case fail(EquatableError)
 }
 
+public enum LocationPermission {
+    case always
+    case whenInUsage
+    case notRequest
+}
+
 public struct LocationManager: ViewModifier {
   let requestPermission: LocationPermission
   let manager: AsyncLocationManager
   @Binding var event: LocationEvent
   
-  public init(requestPermission: LocationPermission, event: Binding<LocationEvent>) {
+  public init(requestPermission: SwiftUICoreLocation.LocationPermission, event: Binding<LocationEvent>) {
     self.requestPermission = requestPermission
     _event = event
     manager = AsyncLocationManager(desiredAccuracy: .bestAccuracy)
@@ -37,19 +43,22 @@ public struct LocationManager: ViewModifier {
   public func body(content: Content) -> some View {
     content
       .task {
-        let _ = await manager.requestPermission(with: requestPermission)
-        for await event in await manager.startUpdatingLocation() {
-          switch event {
-          case .didPaused:
-            self.event = .paused
-          case .didResume:
-            self.event = .resume
-          case .didUpdateLocations(locations: let locations):
-            self.event = .update(locations: locations)
-          case .didFailWith(error: let error):
-            self.event = .fail(.init(error))
+        if let requestPermission = requestPermission.permission {
+          let _ = await manager.requestPermission(with: requestPermission)
+          for await event in await manager.startUpdatingLocation() {
+            switch event {
+            case .didPaused:
+              self.event = .paused
+            case .didResume:
+              self.event = .resume
+            case .didUpdateLocations(locations: let locations):
+              self.event = .update(locations: locations)
+            case .didFailWith(error: let error):
+              self.event = .fail(.init(error))
+            }
           }
         }
+
       }
   }
 }
@@ -57,5 +66,15 @@ public struct LocationManager: ViewModifier {
 public extension View {
   func locationManager(requestPermission: LocationPermission, event: Binding<LocationEvent>) -> some View {
     modifier(LocationManager(requestPermission: requestPermission, event: event))
+  }
+}
+
+extension LocationPermission {
+  var permission: AsyncLocationKit.LocationPermission? {
+    switch self {
+    case .always: return .always
+    case .whenInUsage: return .whenInUsage
+    default: return nil
+    }
   }
 }

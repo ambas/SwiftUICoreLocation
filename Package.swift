@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftUICoreLocation",
-    platforms: [.iOS(.v17), .macOS(.v14)], 
+    platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
       // Products define the executables and libraries a package produces, making them visible to other packages.
       .library(
@@ -13,7 +13,7 @@ let package = Package(
         targets: ["SwiftUICoreLocation"])
     ],
     dependencies: [
-            .package(url: "https://github.com/AsyncSwift/AsyncLocationKit", from: "1.6.4"),
+            .package(url: "https://github.com/ambas/AsyncLocationKit", branch: "main"),
         ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -26,4 +26,3 @@ let package = Package(
             dependencies: ["SwiftUICoreLocation"]),
     ]
 )
-// AsyncLocationKit

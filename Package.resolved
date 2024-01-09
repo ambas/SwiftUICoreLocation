@@ -3,10 +3,10 @@
     {
       "identity" : "asynclocationkit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AsyncSwift/AsyncLocationKit",
+      "location" : "https://github.com/ambas/AsyncLocationKit",
       "state" : {
-        "revision" : "3a9f81e99ba3497a438d882676fb1c3ceb4f177c",
-        "version" : "1.6.4"
+        "branch" : "main",
+        "revision" : "229a0b61854f0ea1bb06e95b8db2579ef15c5a8c"
       }
     }
   ],

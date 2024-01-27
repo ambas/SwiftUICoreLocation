@@ -1,6 +1,6 @@
 import AsyncLocationKit
-import SwiftUI
 import MapKit
+import SwiftUI
 
 public struct EquatableError: Error, Equatable {
     let base: Error
@@ -29,6 +29,7 @@ public enum LocationPermission {
     case notRequest
 }
 
+@available(visionOS, unavailable)
 public struct LocationManager: ViewModifier {
   let requestPermission: LocationPermission
   let manager: AsyncLocationManager
@@ -63,6 +64,7 @@ public struct LocationManager: ViewModifier {
   }
 }
 
+@available(visionOS, unavailable)
 public extension View {
   func locationManager(requestPermission: LocationPermission, event: Binding<LocationEvent>) -> some View {
     modifier(LocationManager(requestPermission: requestPermission, event: event))
